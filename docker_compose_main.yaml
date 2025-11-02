@@ -17,6 +17,9 @@ networks:
 
 ######################## SERVICES
 include:
+  # MANAGEMENT
+  - compose-files/dozzle.yaml
+  - compose-files/socket_proxy.yaml
   # MEDIA
   - compose-files/jellyfin.yaml
   - compose-files/immich.yaml
