@@ -1,0 +1,22 @@
+######################## NETWORKS
+networks:
+  default:
+    driver: bridge
+  docker_network:
+    driver: bridge
+    name: docker_network
+    ipam:
+      config:
+        - subnet: ${SUBNET_DOCKER}
+  socket_proxy:
+    name: socket_proxy
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET_PROXY}
+
+######################## SERVICES
+include:
+  # MEDIA
+  - compose-files/jellyfin.yaml
+  - compose-files/immich.yaml

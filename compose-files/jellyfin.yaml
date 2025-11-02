@@ -1,0 +1,23 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.10.7
+    container_name: jellyfin
+    networks:
+      docker_network:
+        ipv4_address: ${JELLYFIN_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    group_add:
+      - '303'
+    user: ${PUID}:${PGID}
+    ports:
+      - "${JELLYFIN_PORT}:${JELLYFIN_PORT}"
+    environment:
+      UMASK_SET: 022
+      TZ: ${TZ}
+    volumes:
+      - "${DOCKERDIR}/appdata/jellyfin:/config"
+      - "${DATADIR}/media/video:/data/media"
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
