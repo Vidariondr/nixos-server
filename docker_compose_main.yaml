@@ -23,3 +23,4 @@ include:
   # MEDIA
   - compose-files/jellyfin.yaml
   - compose-files/immich.yaml
+  - compose-files/nextexplorer.yaml

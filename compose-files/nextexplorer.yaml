@@ -1,0 +1,19 @@
+services:
+  nextexplorer:
+    image: nxzai/explorer:v1.0.7
+    container_name: nextexplorer
+    networks:
+      docker_network:
+        ipv4_address: ${NEXTEXPLORER_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${NEXTEXPLORER_INT_PORT}:${NEXTEXPLORER_EXT_PORT}"
+    environment:
+      NODE_ENV: production
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - "${DATADIR}/nextexplorer/data:/mnt/Data"
+      - "${DATADIR}/nextexplorer/cache:/cache"
