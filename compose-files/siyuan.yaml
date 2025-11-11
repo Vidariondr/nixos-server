@@ -1,0 +1,19 @@
+services:
+  siyuan:
+    image: b3log/siyuan:v3.3.6
+    container_name: siyuan
+    networks:
+      docker_network:
+        ipv4_address: ${SIYUAN_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${SIYUAN_PORT}:${SIYUAN_PORT}"
+    environment:
+      TZ: $TZ
+      PUID: $PUID
+      PGID: $PGID
+      SIYUAN_ACCESS_AUTH_CODE: ${SIYUAN_AUTH}
+    volumes:
+      - "${DATADIR}/siyuan/workspace:/siyuan/workspace"

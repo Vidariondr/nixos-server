@@ -24,3 +24,4 @@ include:
   - compose-files/jellyfin.yaml
   - compose-files/immich.yaml
   - compose-files/nextexplorer.yaml
+  - compose-files/siyuan.yaml
