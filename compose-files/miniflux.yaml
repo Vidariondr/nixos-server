@@ -1,0 +1,38 @@
+services:
+  miniflux:
+    image: miniflux/miniflux:2.2.14
+    container_name: miniflux
+    networks:
+      docker_network:
+        ipv4_address: ${MINIFLUX_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${MINIFLUX_EXT_PORT}:${MINIFLUX_INT_PORT}"
+    depends_on:
+      miniflux-db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgres://miniflux:${MINIFLUX_DB_PASSWORD}@miniflux-db/miniflux?sslmode=disable"
+      RUN_MIGRATIONS: 1
+
+  miniflux-db:
+    image: postgres:17-alpine
+    container_name: miniflux-db
+    networks:
+      docker_network:
+        ipv4_address: ${MINIFLUX_DB_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "miniflux"
+      POSTGRES_PASSWORD: "${MINIFLUX_DB_PASSWORD}"
+      POSTGRES_DB: "miniflux"
+    volumes:
+      - "${DATADIR}/miniflux:/var/lib/postgresql/data"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "miniflux"]
+      interval: 10s
+      start_period: 30s
