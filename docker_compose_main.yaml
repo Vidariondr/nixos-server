@@ -19,6 +19,7 @@ networks:
 include:
   # MANAGEMENT
   - compose-files/dozzle.yaml
+  - compose-files/homepage.yaml
   - compose-files/socket_proxy.yaml
   # MEDIA
   - compose-files/jellyfin.yaml
