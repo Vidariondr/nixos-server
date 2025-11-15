@@ -1,0 +1,14 @@
+services:
+  linkding:
+    image: sissbruecker/linkding:1.44.1-plus
+    container_name: linkding
+    networks:
+      docker_network:
+        ipv4_address: ${LINKDING_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${LINKDING_PORT}:${LINKDING_PORT}"
+    volumes:
+      - "${DATADIR}/linkding:/etc/linkding/data"
