@@ -1,0 +1,25 @@
+services:
+  navidrome:
+    image: deluan/navidrome:0.58.5
+    container_name: navidrome
+    networks:
+      docker_network:
+        ipv4_address: ${NAVIDROME_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    ports:
+      - "${NAVIDROME_PORT}:${NAVIDROME_PORT}"
+    environment:
+      ND_ENABLEMEDIAFILECOVERART: true
+      ND_ENABLESTARRATING: false
+      ND_ENABLETRANSCODINGCONFIG: false
+      ND_LASTFM_APIKEY: ${NAVIDROME_LASTFM_APIKEY}
+      ND_LASTFM_SECRET: ${NAVIDROME_LASTFM_SECRET}
+      ND_SESSIONTIMEOUT: 999999h
+      ND_SPOTIFY_ID: ${NAVIDROME_SPOTIFY_ID}
+      ND_SPOTIFY_SECRET: ${NAVIDROME_SPOTIFY_SECRET}
+    volumes:
+      - "${DATADIR}/media/music:/music:ro"
+      - "${DOCKERDIR}/appdata/navidrome:/data"

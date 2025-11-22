@@ -26,5 +26,6 @@ include:
   - compose-files/immich.yaml
   - compose-files/linkding.yaml
   - compose-files/miniflux.yaml
+  - compose-files/navidrome.yaml
   - compose-files/nextexplorer.yaml
   - compose-files/siyuan.yaml
