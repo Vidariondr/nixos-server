@@ -1,0 +1,16 @@
+services:
+  ampcast:
+    image: ghcr.io/rekkyrosso/ampcast@sha256:4e70ff9256a909629e1fe326ba1eccc4ff5cd7166e1dd505124a4d504592ede5
+    container_name: ampcast
+    networks:
+      docker_network:
+        ipv4_address: ${AMPCAST_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${AMPCAST_EXT_PORT}:${AMPCAST_INT_PORT}"
+    environment:
+      ENABLED_SERVICES: "navidrome"
+      STARTUP_SERVICES: "navidrome"
+      NAVIDROME_HOST: "http://{IP_SERVER}:${NAVIDROME_PORT}"

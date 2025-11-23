@@ -22,6 +22,7 @@ include:
   - compose-files/homepage.yaml
   - compose-files/socket_proxy.yaml
   # MEDIA
+  - compose-files/ampcast.yaml
   - compose-files/jellyfin.yaml
   - compose-files/immich.yaml
   - compose-files/linkding.yaml
