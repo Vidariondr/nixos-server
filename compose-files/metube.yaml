@@ -1,0 +1,20 @@
+services:
+  metube:
+    image: ghcr.io/alexta69/metube:2025.11.16
+    container_name: metube
+    networks:
+      docker_network:
+        ipv4_address: ${METUBE_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${METUBE_PORT}:${METUBE_PORT}"
+    volumes:
+      - "${DATADIR}/media/metube-music:/downloads"
+    environment:
+      UID: ${PUID}
+      GID: ${PGID}
+      DEFAULT_THEME: "dark"
+      DOWNLOAD_DIRS_INDEXABLE: "true"
+      DOWNLOAD_MODE: "sequential"
