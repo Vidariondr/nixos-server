@@ -21,6 +21,7 @@ include:
   - compose-files/dozzle.yaml
   - compose-files/homepage.yaml
   - compose-files/socket_proxy.yaml
+  - compose-files/pihole.yaml
   # MEDIA
   - compose-files/ampcast.yaml
   - compose-files/jellyfin.yaml
