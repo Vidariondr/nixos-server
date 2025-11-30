@@ -1,0 +1,18 @@
+services:
+  papra:
+    image: ghcr.io/papra-hq/papra:25.11.0-rootless
+    container_name: papra
+    networks:
+      docker_network:
+        ipv4_address: ${PAPRA_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    ports:
+      - "${PAPRA_PORT}:${PAPRA_PORT}"
+    environment:
+      DOCUMENTS_OCR_LANGUAGES: "eng,pol"
+      APP_BASE_URL: "http:${IP_SERVER}:${PAPRA_PORT}"
+    volumes:
+      - "${DOCKERDIR}/appdata/papra:/app/app-data"
