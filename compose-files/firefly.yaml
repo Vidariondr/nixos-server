@@ -1,0 +1,51 @@
+services:
+  firefly_web:
+    image: fireflyiii/core:version-6.4.9
+    container_name: firefly_web
+    networks:
+      docker_network:
+        ipv4_address: ${FIREFLY_WEB_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    env_file: "${DOCKERDIR}/appdata/firefly/.env"
+    ports:
+      - "${FIREFLY_WEB_EXT_PORT}:${FIREFLY_WEB_INT_PORT}"
+    hostname: app
+    volumes:
+      - "${DOCKERDIR}/appdata/firefly/web:/var/www/html/storage/upload"
+    depends_on:
+      - firefly_db
+
+  firefly_db:
+    image: mariadb:lts
+    container_name: firefly_db
+    networks:
+      docker_network:
+        ipv4_address: ${FIREFLY_DB_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    env_file: "${DOCKERDIR}/appdata/firefly/.db.env"
+    hostname: db
+    volumes:
+      - "${DOCKERDIR}/appdata/firefly/db:/var/lib/mysql"
+
+  firefly_cron:
+    image: alpine
+    container_name: firefly_cron
+    networks:
+      docker_network:
+        ipv4_address: ${FIREFLY_CRON_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    env_file: "${DOCKERDIR}/appdata/firefly/.env"
+    command: sh -c "
+      apk add tzdata && \
+      (ln -s /usr/share/zoneinfo/$$TZ /etc/localtime || true) && \
+      echo \"0 3 * * * wget -qO- http://firefly_web:${FIREFLY_WEB_INT_PORT}/api/v1/cron/${FIREFLY_CRON_TOKEN}\"
+      | crontab - && \
+      crond -f -L /dev/stdout"
+    depends_on:
+      - firefly_web

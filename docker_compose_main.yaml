@@ -24,6 +24,7 @@ include:
   - compose-files/pihole.yaml
   # MEDIA
   - compose-files/ampcast.yaml
+  - compose-files/firefly.yaml
   - compose-files/jellyfin.yaml
   - compose-files/immich.yaml
   - compose-files/linkding.yaml
