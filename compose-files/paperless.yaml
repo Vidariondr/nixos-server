@@ -1,0 +1,90 @@
+services:
+  paperless-redis:
+    container_name: paperless-redis
+    image: docker.io/library/redis:8
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      docker_network:
+        ipv4_address: ${PAPERLESS_REDIS_IP}
+    volumes:
+      - "${DATADIR}/paperless/paperless-redis:/data"
+
+  paperless-db:
+    container_name: paperless-db
+    image: docker.io/library/postgres:18
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      docker_network:
+        ipv4_address: ${PAPERLESS_POSTGRES_IP}
+    volumes:
+      - "${DATADIR}/paperless/paperless-db:/var/lib/postgresql"
+    environment:
+      POSTGRES_DB: ${PAPERLESS_POSTGRES_DB}
+      POSTGRES_USER: ${PAPERLESS_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${PAPERLESS_POSTGRES_PASSWORD}
+
+  paperless:
+    container_name: paperless
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.20.2
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      docker_network:
+        ipv4_address: ${PAPERLESS_IP}
+    ports:
+      - "${PAPERLESS_EXT_PORT}:${PAPERLESS_INT_PORT}"
+    depends_on:
+      - paperless-db
+      - paperless-redis
+      - paperless-gotenberg
+      - paperless-tika
+    volumes:
+      - "${DATADIR}/paperless/data:/usr/src/paperless/data"
+      - "${DATADIR}/paperless/media:/usr/src/paperless/media"
+      - "${DATADIR}/paperless/export:/usr/src/paperless/export"
+      - "${DATADIR}/paperless/consume:/usr/src/paperless/consume"
+    environment:
+      USERMAP_UID: ${PUID}
+      USERMAP_GID: ${PGID}
+      PAPERLESS_TIME_ZONE: ${TZ}
+      PAPERLESS_OCR_LANGUAGES: "pol"
+      PAPERLESS_REDIS: "redis://paperless-redis:${PAPERLESS_REDIS_PORT}"
+      PAPERLESS_DBHOST: "paperless-db"
+      PAPERLESS_TIKA_ENABLED: "1"
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: "http://paperless-gotenberg:${PAPERLESS_GOTENBERG_EXT_PORT}"
+      PAPERLESS_TIKA_ENDPOINT: "http://paperless-tika:${PAPERLESS_TIKA_PORT}"
+      PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
+      PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
+
+  paperless-gotenberg:
+    container_name: paperless-gotenberg
+    image: docker.io/gotenberg/gotenberg:8.25
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      docker_network:
+        ipv4_address: ${PAPERLESS_GOTENBERG_IP}
+    ports:
+      - "${PAPERLESS_GOTENBERG_EXT_PORT}:${PAPERLESS_GOTENBERG_INT_PORT}"
+    # The gotenberg chromium route is used to convert .eml files. We do not
+    # want to allow external content like tracking pixels or even javascript.
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+
+  paperless-tika:
+    container_name: paperless-tika
+    image: docker.io/apache/tika:3.2.3.0
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    networks:
+      docker_network:
+        ipv4_address: ${PAPERLESS_TIKA_IP}

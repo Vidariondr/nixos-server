@@ -32,5 +32,5 @@ include:
   - compose-files/metube.yaml
   - compose-files/navidrome.yaml
   - compose-files/nextexplorer.yaml
-  - compose-files/papra.yaml
+  - compose-files/paperless.yaml
   - compose-files/siyuan.yaml
