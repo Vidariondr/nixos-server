@@ -12,3 +12,9 @@ services:
       - "${LINKDING_PORT}:${LINKDING_PORT}"
     volumes:
       - "${DATADIR}/linkding:/etc/linkding/data"
+    environment:
+      LD_CONTEXT_PATH: "linkding/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.linkding.entrypoints=web"
+      - "traefik.http.routers.linkding.rule=PathPrefix(`/linkding`)"
