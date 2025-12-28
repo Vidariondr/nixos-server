@@ -22,7 +22,6 @@ include:
   - compose-files/homepage.yaml
   - compose-files/socket_proxy.yaml
   - compose-files/pihole.yaml
-  - compose-files/traefik.yaml
   # MEDIA
   - compose-files/ampcast.yaml
   - compose-files/firefly.yaml
