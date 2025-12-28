@@ -1,0 +1,19 @@
+services:
+  wgportal:
+    image: wgportal/wg-portal:v2.1.1
+    container_name: wgportal
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    volumes:
+      - "${DOCKERDIR}/appdata/wgportal/wireguard:/etc/wireguard"
+      - "${DOCKERDIR}/appdata/wgportal/data:/app/data"
+      - "${DOCKERDIR}/appdata/wgportal/config:/app/config"
+    environment:
+      WG_PORTAL_CORE_EDITABLE_KEYS: false
+      WG_PORTAL_WEB_EXTERNAL_URL: "http://${IP_SERVER}:${WGPORTAL_PORT}"
+      WG_PORTAL_ADVANCED_START_LISTEN_PORT: "${WG_PORT}"
