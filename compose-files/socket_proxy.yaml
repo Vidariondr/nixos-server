@@ -29,11 +29,12 @@ services:
       - COMMIT=0
       - CONFIGS=0
       - CONTAINERS=1 # Traefik, Portainer, etc.
+      - DELETE=1
       - DISTRIBUTION=0
-      - EXEC=0
-      - IMAGES=0 # Portainer
+      - EXEC=1
+      - IMAGES=1 # Portainer
       - INFO=1 # Portainer
-      - NETWORKS=0 # Portainer
+      - NETWORKS=1 # Portainer
       - NODES=0
       - PLUGINS=0
       - SERVICES=0 # Portainer
@@ -41,4 +42,4 @@ services:
       - SWARM=0
       - SYSTEM=0
       - TASKS=0 # Portainer
-      - VOLUMES=0 # Portainer
+      - VOLUMES=1 # Portainer
