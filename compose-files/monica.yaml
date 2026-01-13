@@ -1,0 +1,45 @@
+services:
+  monica:
+    image: monica:4.1.2-apache
+    container_name: monica
+    networks:
+      docker_network:
+        ipv4_address: ${MONICA_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${MONICA_EXT_PORT}:${MONICA_INT_PORT}"
+    environment:
+      APP_ENV: local
+      APP_KEY: ${MONICA_KEY}
+      APP_URL: "http://${SERVER_IP}:${MONICA_EXT_PORT}"
+      DB_HOST: monica_db
+      DB_DATABASE: ${MONICA_DB_NAME}
+      DB_USERNAME: ${MONICA_DB_USER}
+      DB_PASSWORD: ${MONICA_DB_PASS}
+      LOG_CHANNEL: stderr
+      CACHE_DRIVER: database
+      SESSION_DRIVER: database
+      QUEUE_DRIVER: sync
+    volumes:
+      - "${DOCKERDIR}/appdata/monica/data:/var/www/html/storage"
+    depends_on:
+      - monica_db
+
+  monica_db:
+    image: mariadb:11
+    container_name: monica_db
+    networks:
+      docker_network:
+        ipv4_address: ${MONICA_DB_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_DATABASE: ${MONICA_DB_NAME}
+      MYSQL_USER: ${MONICA_DB_USER}
+      MYSQL_PASSWORD: ${MONICA_DB_PASS}
+    volumes:
+      - "${DOCKERDIR}/appdata/monica/db:/var/lib/mysql"
