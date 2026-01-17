@@ -13,7 +13,7 @@ services:
     environment:
       APP_ENV: local
       APP_KEY: ${MONICA_KEY}
-      APP_URL: "http://${SERVER_IP}:${MONICA_EXT_PORT}"
+      APP_URL: "http://${IP_SERVER}:${MONICA_EXT_PORT}"
       DB_HOST: monica_db
       DB_DATABASE: ${MONICA_DB_NAME}
       DB_USERNAME: ${MONICA_DB_USER}
