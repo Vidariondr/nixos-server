@@ -1,6 +1,6 @@
 services:
   ampcast:
-    image: ghcr.io/rekkyrosso/ampcast@sha256:4e70ff9256a909629e1fe326ba1eccc4ff5cd7166e1dd505124a4d504592ede5
+    image: ghcr.io/rekkyrosso/ampcast:0.9.24
     container_name: ampcast
     networks:
       docker_network:
