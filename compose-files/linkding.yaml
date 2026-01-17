@@ -1,6 +1,6 @@
 services:
   linkding:
-    image: sissbruecker/linkding:1.44.1-plus
+    image: sissbruecker/linkding:1.45.0-plus
     container_name: linkding
     networks:
       docker_network:
