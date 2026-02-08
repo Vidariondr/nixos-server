@@ -1,6 +1,6 @@
 services:
   firefly_web:
-    image: fireflyiii/core:version-6.4.16
+    image: fireflyiii/core:version-6.4.17
     container_name: firefly_web
     networks:
       docker_network:
