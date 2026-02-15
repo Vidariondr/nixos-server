@@ -1,6 +1,6 @@
 services:
   siyuan:
-    image: b3log/siyuan:v3.5.4
+    image: b3log/siyuan:v3.5.7
     container_name: siyuan
     networks:
       docker_network:
