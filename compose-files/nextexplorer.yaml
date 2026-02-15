@@ -1,6 +1,6 @@
 services:
   nextexplorer:
-    image: nxzai/explorer:v2.1.1
+    image: nxzai/explorer:v2.2.2
     container_name: nextexplorer
     networks:
       docker_network:
