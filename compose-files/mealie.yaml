@@ -1,0 +1,24 @@
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v3.12.0
+    container_name: mealie
+    networks:
+      docker_network:
+        ipv4_address: ${MEALIE_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+        - "${MEALIE_PORT}:${MEALIE_PORT}"
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+    volumes:
+      - "${DOCKERDIR}/appdata/mealie:/app/data"
+    environment:
+      ALLOW_SIGNUP: "false"
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      BASE_URL: "http://${IP_SERVER}:${MEALIE_PORT}"
