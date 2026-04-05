@@ -18,8 +18,6 @@ services:
       ND_LASTFM_APIKEY: ${NAVIDROME_LASTFM_APIKEY}
       ND_LASTFM_SECRET: ${NAVIDROME_LASTFM_SECRET}
       ND_SESSIONTIMEOUT: 999999h
-      ND_SPOTIFY_ID: ${NAVIDROME_SPOTIFY_ID}
-      ND_SPOTIFY_SECRET: ${NAVIDROME_SPOTIFY_SECRET}
     volumes:
       - "${DATADIR}/media/music:/music:ro"
       - "${DOCKERDIR}/appdata/navidrome:/data"
