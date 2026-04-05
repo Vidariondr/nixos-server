@@ -22,6 +22,7 @@ include:
   - compose-files/dockhand.yaml
   - compose-files/homepage.yaml
   - compose-files/socket_proxy.yaml
+  - compose-files/speedtest-tracker.yaml
   - compose-files/pihole.yaml
   - compose-files/wgportal.yaml
   # MEDIA
