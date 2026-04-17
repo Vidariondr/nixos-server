@@ -1,0 +1,35 @@
+services:
+  yamtrack:
+    image: ghcr.io/fuzzygrim/yamtrack:0.25.2
+    container_name: yamtrack
+    networks:
+      docker_network:
+        ipv4_address: ${YAMTRACK_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${YAMTRACK_EXT_PORT}:${YAMTRACK_INT_PORT}"
+    environment:
+      SECRET: ${YAMTRACK_SECRET}
+      REDIS_URL: "redis://yamtrack-db:${YAMTRACK_DB_PORT}"
+      TZ: ${TZ}
+      URLS: "http://${IP_SERVER}:${YAMTRACK_EXT_PORT}"
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - "${DATADIR}/yamtrack/db:/yamtrack/db"
+    depends_on:
+      - yamtrack-db
+
+  yamtrack-db:
+    image: redis:8-alpine
+    container_name: yamtrack-db
+    networks:
+      docker_network:
+        ipv4_address: ${YAMTRACK_DB_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    volumes:
+      - "${DATADIR}/yamtrack/redis:/data"
