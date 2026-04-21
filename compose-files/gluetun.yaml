@@ -1,0 +1,31 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun:v3.41
+    container_name: gluetun
+    networks:
+      docker_network:
+        ipv4_address: ${GLUETUN_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    ports:
+      - "${GLUETUN_PORT}:${GLUETUN_PORT}"
+      - "${SYNCTHING_PORT}:${SYNCTHING_PORT}"
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      VPN_SERVICE_PROVIDER: custom
+      VPN_TYPE: wireguard
+      HTTP_CONTROL_SERVER_ADDRESS: ${GLUETUN_HTTP}
+      WIREGUARD_ENDPOINT_IP: ${WG_ENDPOINT_IP}
+      WIREGUARD_ENDPOINT_PORT: ${WG_ENDPOINT_PORT}
+      WIREGUARD_PUBLIC_KEY: ${WG_PUBLIC_KEY}
+      WIREGUARD_PRIVATE_KEY: ${WG_PRIVATE_KEY}
+      WIREGUARD_PRESHARED_KEY: ${WG_PRESHARED_KEY}
+      WIREGUARD_ADDRESSES: ${WG_ADDRESSES}
+      FIREWALL_INPUT_PORTS: ${SYNCTHING_SYNC_PORT}

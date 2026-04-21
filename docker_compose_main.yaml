@@ -20,6 +20,7 @@ include:
   # MANAGEMENT
   - compose-files/dozzle.yaml
   - compose-files/dockhand.yaml
+  - compose-files/gluetun.yaml
   - compose-files/homepage.yaml
   - compose-files/socket_proxy.yaml
   - compose-files/speedtest-tracker.yaml
@@ -39,4 +40,5 @@ include:
   - compose-files/nextexplorer.yaml
   - compose-files/paperless.yaml
   - compose-files/siyuan.yaml
+  - compose-files/syncthing.yaml
   - compose-files/yamtrack.yaml
