@@ -1,6 +1,6 @@
 services:
   wgportal:
-    image: wgportal/wg-portal:v2.3.0
+    image: wgportal/wg-portal:v2.3.1
     container_name: wgportal
     security_opt:
       - no-new-privileges:true
