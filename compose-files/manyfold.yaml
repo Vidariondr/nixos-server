@@ -1,0 +1,27 @@
+services:
+  manyfold:
+    image: manyfold3d/manyfold-solo:0.143.2
+    container_name: manyfold
+    networks:
+      docker_network:
+        ipv4_address: ${MANYFOLD_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${MANYFOLD_PORT}:${MANYFOLD_PORT}"
+    volumes:
+      - "${DOCKERDIR}/appdata/manyfold/database:/config"
+      - "${DATADIR}/manyfold/models:/models"
+    environment:
+      SECRET_KEY_BASE: ${MANYFOLD_KEY}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETUID
+      - SETGID
+
