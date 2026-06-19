@@ -1,0 +1,19 @@
+services:
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:15
+    container_name: forgejo
+    networks:
+      docker_network:
+        ipv4_address: ${FORGEJO_IP}
+    ports:
+      - '${FORGEJO_EXT_PORT}:${FORGEJO_INT_PORT}'
+      - '${FORGEJO_SSH_EXT_PORT}:${FORGEJO_SSH_INT_PORT}'
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    volumes:
+      - "${DATADIR}/forgejo:/data"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      USER_UID: ${PUID}
+      USER_GID: ${PGID}
