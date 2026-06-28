@@ -1,0 +1,40 @@
+services:
+  mcsmanager_web:
+    image: githubyumao/mcsmanager-web:v10.16.2
+    container_name: mcsmanager_web
+    networks:
+      docker_network:
+        ipv4_address: ${MCSMANAGER_WEB_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${MCSMANAGER_WEB_PORT}:${MCSMANAGER_WEB_PORT}"
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${DATADIR}/mcsmanager/web/data:/opt/mcsmanager/web/data"
+      - "${DATADIR}/mcsmanager/web/logs:/opt/mcsmanager/web/logs"
+      - "${DATADIR}/mcsmanager/web/public/upload_files:/opt/mcsmanager/web/public/upload_files"
+
+  mcsmanager_daemon:
+    image: githubyumao/mcsmanager-daemon:v10.16.2
+    container_name: mcsmanager_daemon
+    networks:
+      docker_network:
+        ipv4_address: ${MCSMANAGER_DAEMON_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${MCSMANAGER_DAEMON_PORT}:${MCSMANAGER_DAEMON_PORT}"
+      - "25565:25565"
+    volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${DATADIR}/mcsmanager/daemon/data:/opt/mcsmanager/daemon/data"
+      - "${DATADIR}/mcsmanager/daemon/logs:/opt/mcsmanager/daemon/logs"
+    environment:
+      DOCKER_HOST: "tcp://socket-proxy:${SOCKET_PROXY_PORT}"
+    depends_on:
+      - socket-proxy
