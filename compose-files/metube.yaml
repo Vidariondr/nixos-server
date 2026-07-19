@@ -1,6 +1,6 @@
 services:
   metube:
-    image: ghcr.io/alexta69/metube:2026.07.10
+    image: ghcr.io/alexta69/metube:2026.07.18
     container_name: metube
     networks:
       docker_network:
