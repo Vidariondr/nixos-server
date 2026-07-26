@@ -1,4 +1,5 @@
 .env
+compose-files/gluetun.env
 scripts
 appdata
 .kopiaignore
