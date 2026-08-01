@@ -18,7 +18,7 @@ services:
       - "${DATADIR}/mcsmanager/web/public/upload_files:/opt/mcsmanager/web/public/upload_files"
 
   mcsmanager_daemon:
-    image: githubyumao/mcsmanager-daemon:v10.16.2
+    image: githubyumao/mcsmanager-daemon:v10.17.0
     container_name: mcsmanager_daemon
     networks:
       docker_network:
