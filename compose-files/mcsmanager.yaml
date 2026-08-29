@@ -1,6 +1,6 @@
 services:
   mcsmanager_web:
-    image: githubyumao/mcsmanager-web:v10.18.2
+    image: githubyumao/mcsmanager-web:v10.18.3
     container_name: mcsmanager_web
     networks:
       docker_network:
