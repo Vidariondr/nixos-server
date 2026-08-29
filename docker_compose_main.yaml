@@ -32,6 +32,7 @@ include:
   - compose-files/jellyfin.yaml
   - compose-files/immich.yaml
   - compose-files/linkding.yaml
+  - compose-files/many-notes.yaml
   - compose-files/mealie.yaml
   - compose-files/mcsmanager.yaml
   - compose-files/miniflux.yaml

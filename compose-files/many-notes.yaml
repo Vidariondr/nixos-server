@@ -1,0 +1,25 @@
+services:
+  manynotes:
+    build:
+      context: .
+      dockerfile: Dockerfile.manynotes
+      args:
+        UID: ${PUID}
+        GID: ${PGID}
+    container_name: manynotes
+    networks:
+      docker_network:
+        ipv4_address: ${MANYNOTES_IP}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "${MANYNOTES_EXT_PORT}:${MANYNOTES_INT_PORT}"
+    environment:
+      APP_URL: "http://${IP_SERVER}:${MANYNOTES_EXT_PORT}"
+      APP_TIMEZONE: ${TZ}
+    volumes:
+      - "${DATADIR}/manynotes/database:/var/www/html/database/sqlite"
+      - "${DATADIR}/manynotes/logs:/var/www/html/storage/logs"
+      - "${DATADIR}/manynotes/private:/var/www/html/storage/app/private"
+      - "${DATADIR}/manynotes/typesense:/var/www/html/typesense"
