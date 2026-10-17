@@ -18,8 +18,8 @@ networks:
 ######################## SERVICES
 include:
   # MANAGEMENT
+  - compose-files/arcane.yaml
   - compose-files/dozzle.yaml
-  - compose-files/dockhand.yaml
   - compose-files/gluetun.yaml
   - compose-files/homepage.yaml
   - compose-files/socket_proxy.yaml
